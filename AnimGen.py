@@ -36,9 +36,19 @@ def GenerateAnim(hero_text, ticket_no,venue,date, ImageLocation):
     
     #setup Image
     ImageNode = bpy.data.materials["ImageMat"].node_tree.nodes["BGImage"]
+    
     img = bpy.data.images.load(ImageLocation)
     if img:
         ImageNode.image = img
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.context.view_layer.objects.active = None
+    ImagePlane = bpy.data.objects['ImagePlane']
+    bpy.context.view_layer.objects.active = ImagePlane
+    
+    bpy.ops.object.editmode_toggle()
+    bpy.ops.uv.smart_project(correct_aspect=False, scale_to_bounds=True)
+    bpy.ops.object.editmode_toggle()
     
     #render stuff
     bpy.ops.render.render(animation=True, use_viewport=True)
@@ -47,5 +57,7 @@ def GenerateAnim(hero_text, ticket_no,venue,date, ImageLocation):
 
 bpy.context.scene.cycles.device = 'GPU'
 bpy.context.scene.render.fps = 15
+bpy.context.scene.render.engine = 'BLENDER_EEVEE'
 
-GenerateAnim('Farhan','007', 'Lisbon', 'May 1', '//Refs\\2.png')
+
+GenerateAnim('Buildspa\ndemos','001','Discord', 'Sep 14', '//Refs\\3.png')
